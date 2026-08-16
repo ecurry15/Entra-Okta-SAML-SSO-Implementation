@@ -1,9 +1,9 @@
 # Federated SSO Implementation: Entra > Okta > Salesforce
 
-![Architecture Diagram](https://img.shields.io/badge/Architecture-Entra%20ID%20%7C%20Okta%20%7C%20Salesforce-blue?style=for-the-badge)
-![Security](https://img.shields.io/badge/IAM-SAML%202.0%20%7C%20SCIM-orange?style=for-the-badge)
+<img width="1536" height="1024" alt="Federation Diagram" src="https://github.com/user-attachments/assets/f57a20fb-dc44-4b8b-9881-48f63dda9de1" />
 
-## 📌 Executive Summary
+
+## 📌 Summary
 * This project is a continuation of my previous project https://github.com/ecurry15/Enterprise-Identity-Access-Management-Lab-Microsoft-Entra. In which I set up an enterprise-level Entra IAM environment.
 
 * I built off that environment by importing the users from Entra into Okta. I then designed and deployed a multi-platform identity federation architecture. I configured **Microsoft Entra ID** as the Primary Identity Provider (IdP), **Okta** as the Central Hub/Downstream IdP, and **Salesforce** as a downstream SaaS application.
@@ -13,8 +13,6 @@
 ---
 
 ## 🏗️ Technical Architecture & Authentication Flow
-
-![Identity Federation Architecture Diagram](https://mermaid.ink/img/p3e4e1bea8ba57434)
 
 ### Authentication Flow:
 1. The user accesses the **Okta End-User Portal**
