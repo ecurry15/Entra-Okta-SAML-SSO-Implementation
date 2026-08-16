@@ -35,6 +35,10 @@
 * Imported identity user profiles from **Microsoft Entra ID** into Okta (Only 9 were imported due to license restrictions).
 * Created **Okta User Groups** to match the Entra ID security groups.
 
+<img width="1920" height="859" alt="users import okta" src="https://github.com/user-attachments/assets/c1e1dbba-1462-46da-8a84-8300dc403a15" />
+
+
+
 ### Phase 2: Inbound SAML Federation (Entra ID ➔ Okta)
 * Created a SAML2 Identity provider **Warriors Entra SSO** in Okta. 
 * Created an Enterprise Application in Entra ID **Warriors Okta SSO** for Okta Inbound Federation.
