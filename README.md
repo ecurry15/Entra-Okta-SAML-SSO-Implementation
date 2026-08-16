@@ -4,9 +4,11 @@
 ![Security](https://img.shields.io/badge/IAM-SAML%202.0%20%7C%20SCIM-orange?style=for-the-badge)
 
 ## 📌 Executive Summary
-In this project, I designed and deployed a multi-platform identity federation architecture. I configured **Microsoft Entra ID** as the Primary Identity Provider (IdP), **Okta** as the Central Hub/Downstream IdP, and **Salesforce** as a downstream SaaS application.
+* This project is a continuation of my previous project https://github.com/ecurry15/Enterprise-Identity-Access-Management-Lab-Microsoft-Entra. In which I set up an enterprise-level Entra IAM environment.
 
-The end-to-end flow enables Single Sign-On (SSO): users authenticate via Entra ID, are federated to Okta via SAML, and are signed in to Salesforce through Okta-managed SSO and account provisioning.
+* I built off that environment by importing the users from Entra into Okta. I then designed and deployed a multi-platform identity federation architecture. I configured **Microsoft Entra ID** as the Primary Identity Provider (IdP), **Okta** as the Central Hub/Downstream IdP, and **Salesforce** as a downstream SaaS application.
+
+* The end-to-end flow enables Single Sign-On (SSO): users authenticate via Entra ID, are federated to Okta via SAML, and are signed in to Salesforce through Okta-managed SSO and account provisioning.
 
 ---
 
