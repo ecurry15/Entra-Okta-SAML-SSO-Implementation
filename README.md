@@ -110,8 +110,7 @@ Reason: Invalid username transform / Account match failure
 ---
 
 ## 💼 Key Technical Skills Demonstrated
-* **Identity Providers & Protocols:** SAML 2.0, SCIM, Microsoft Entra ID (Azure AD), Okta Universal Directory, Salesforce Identity.
-* **Claim Engineering & Schema Customization:** Custom SAML attribute claims, XML namespace navigation, Okta Profile Editor schema expansion.
-* **Okta Expression Language (OEL):** String transformation functions (`String.toLowerCase()`, `idpuser` evaluation).
+* **Identity Providers & Protocols:** SAML 2.0, SCIM, Microsoft Entra ID (Azure AD), Okta, Salesforce.
+* **Claim Engineering:** Custom SAML attribute claims, Okta Profile Editor schema expansion.
 * **Identity Troubleshooting:** Analysis of Okta System Logs, SAML response assertions, and account matching policies.
 * **Role-Based Access Control (RBAC):** Group-based application provisioning and entitlement governance.
