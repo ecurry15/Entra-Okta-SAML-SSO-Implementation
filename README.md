@@ -54,7 +54,7 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 ### Phase 1: Directory Setup & User/Group Import
 
 - Provisioned an enterprise **Okta Tenant**.
-- Imported identity user profiles from **Microsoft Entra ID** into Okta. Only 9 users were imported due to license restrictions.
+- Imported identity user profiles from **Microsoft Entra ID** into Okta. Only 9 are active due to license restrictions.
 - Created **Okta User Groups** to match the Entra ID security groups.
 
 <p align="center">
