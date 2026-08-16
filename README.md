@@ -153,7 +153,7 @@ Reason: Invalid username transform / Account match failure
 
 #### 4. Enabled Account Linking Policy
 
-- Enabled **Enable automatic linking** under the IdP Account Matching settings.
+- Set **Enable automatic linking** under the IdP Account Matching settings.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/88079188-bce8-431c-8c9f-e6be5890419a" alt="Okta Profile Mapping" width="800"/>
