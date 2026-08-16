@@ -20,15 +20,32 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 
 ## 🏗️ Authentication Flow
 
+**Entra ID → Okta → Salesforce**
+
+### 1. User Authentication: Entra ID → Okta
+
 1. The user accesses the **Okta End-User Portal**.
-2. Okta redirects the browser to **Microsoft Entra ID** for authentication.
-3. The user authenticates against Entra ID, enforcing primary credentials and Conditional Access policies.
-4. Entra ID issues a signed SAML 2.0 assertion containing user claims.
-5. Okta validates the SAML response, matches the user account, and establishes an Okta session.
-6. The user is signed into the Okta End-User Dashboard, which displays assigned applications such as Salesforce.
-7. The user selects the Salesforce application in the Okta dashboard.
-8. Okta generates a SAML 2.0 authentication assertion for Salesforce containing the required user attributes and claims.
-9. Salesforce validates the SAML assertion, verifies the user identity and required claims, and signs the user into Salesforce.
+2. Okta identifies the user as belonging to the **Entra ID federation** and redirects the browser to Microsoft Entra ID.
+3. The user authenticates against **Microsoft Entra ID**, where primary credentials and Conditional Access policies are enforced.
+4. Entra ID generates a signed **SAML 2.0 assertion** containing the user's identity and configured claims.
+5. Okta receives and validates the SAML response, then uses the configured account-matching rules to identify the corresponding Okta user.
+6. Okta establishes a session and signs the user into the **Okta End-User Dashboard**.
+
+### 2. Application SSO: Okta → Salesforce
+
+7. The user selects **Salesforce** from the Okta End-User Dashboard.
+8. Okta generates a signed **SAML 2.0 assertion** containing the required user attributes and claims.
+9. Salesforce validates the SAML assertion and verifies the user's identity.
+10. Salesforce establishes the user session and signs the user into the application.
+
+### Federation Architecture
+
+| Component | Role |
+|---|---|
+| **Microsoft Entra ID** | Primary Identity Provider (IdP) |
+| **Okta** | Central Identity Hub / Downstream IdP |
+| **Salesforce** | Downstream SaaS Application / Service Provider (SP) |
+| **SAML 2.0** | Federation protocol used between Entra ID, Okta, and Salesforce |
 
 ---
 
