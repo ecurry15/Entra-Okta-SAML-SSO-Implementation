@@ -89,10 +89,6 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8bc9781a-7e12-4395-ad34-4abcef865037" alt="Entra Okta SAML Configuration" width="900"/>
-</p>
-
-<p align="center">
   <img src="https://github.com/user-attachments/assets/ef7a4ba2-74a8-4182-99e4-4cbe0fbf880f" alt="SSO Routing Rule" width="750"/>
 </p>
 
