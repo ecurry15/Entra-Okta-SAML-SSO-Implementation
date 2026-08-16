@@ -12,7 +12,7 @@
 
 ---
 
-## 🏗️ Technical Architecture & Authentication Flow
+## 🏗️ Authentication Flow
 
 ### Authentication Flow:
 1. The user accesses the **Okta End-User Portal**
@@ -34,6 +34,10 @@
 * Provisioned an enterprise **Okta Tenant**.
 * Imported identity user profiles from **Microsoft Entra ID** into Okta (Only 9 were imported due to license restrictions).
 * Created **Okta User Groups** to match the Entra ID security groups.
+
+<img width="1777" height="855" alt="okta entra users" src="https://github.com/user-attachments/assets/fc60b23e-79d5-40a4-8d51-37395e8c2566" />
+<img width="807" height="645" alt="okta groups" src="https://github.com/user-attachments/assets/b6a2c37a-d619-45c5-aefd-d27f49ecb193" />
+
 
 
 
