@@ -1,7 +1,7 @@
 # Federated SSO Implementation: Entra ID > Okta > Salesforce
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f57a20fb-dc44-4b8b-9881-48f63dda9de1" alt="Federation Diagram" width="900"/>
+  <img width="800" alt="Lab Diagram" src="https://github.com/user-attachments/assets/0cfccadb-329f-4f92-9a10-f419c78872ea" />
 </p>
 
 ## 📌 Summary
