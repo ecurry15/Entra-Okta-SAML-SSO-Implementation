@@ -8,7 +8,7 @@
 
 This project is a continuation of my previous [Enterprise Identity & Access Management Lab](https://github.com/ecurry15/Enterprise-Identity-Access-Management-Lab-Microsoft-Entra), where I built an enterprise-level Microsoft Entra IAM environment.
 
-I built on that environment by importing users from Entra ID into Okta and then designing and deploying a multi-platform identity federation architecture. **Microsoft Entra ID** serves as the Primary Identity Provider (IdP), **Okta** serves as the Central Hub/Downstream IdP, and **Salesforce** serves as the downstream SaaS application.
+I built on that environment by importing users from Entra ID into Okta and then designed and deployed a multi-platform identity federation architecture. **Microsoft Entra ID** serves as the Primary Identity Provider (IdP), **Okta** serves as the Central Hub/Downstream IdP, and **Salesforce** serves as the downstream SaaS application.
 
 The end-to-end flow enables Single Sign-On (SSO):
 
