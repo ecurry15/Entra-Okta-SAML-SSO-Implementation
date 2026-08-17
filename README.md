@@ -183,7 +183,7 @@ Reason: Invalid username transform / Account match failure
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/fa7e92b5-050a-40b9-8acb-8f50f66b94fa" alt="Andre Iggy Logs" width="800"/>
+  <img width="800" alt="Andre Successful login" src="https://github.com/user-attachments/assets/3c43bb3d-c0f2-425d-aa79-613e77b054af" />
 </p>
 
 ---
