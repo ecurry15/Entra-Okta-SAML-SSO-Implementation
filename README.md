@@ -171,10 +171,6 @@ Reason: Invalid username transform / Account match failure
 - **System Log Audit:** Confirmed that `user.authentication.auth_via_IDP` entries changed from `FAILURE` to `SUCCESS`.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/84922dc5-cbe4-45b7-8a2f-3a7d5446af0e" alt="Entra SSO Available" width="800"/>
-</p>
-
-<p align="center">
   <img width="800" alt="Andre SSO sign in" src="https://github.com/user-attachments/assets/61fb2cfe-2647-4ea3-a4b4-fb67d7a12da4" />
 </p>
 
