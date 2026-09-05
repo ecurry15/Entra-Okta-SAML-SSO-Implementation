@@ -10,11 +10,33 @@ This project is a continuation of my previous [Enterprise Identity & Access Mana
 
 I built on that environment by importing users from Entra ID into Okta and then designed and deployed a multi-platform identity federation architecture. **Microsoft Entra ID** serves as the Primary Identity Provider (IdP), **Okta** serves as the Central Hub/Downstream IdP, and **Salesforce** serves as the downstream SaaS application.
 
-The end-to-end flow enables Single Sign-On (SSO):
+The end-to-end authentication flow enables Single Sign-On (SSO):
 
 **Entra ID → Okta → Salesforce**
 
 Users authenticate through Entra ID, are federated to Okta using SAML, and then access Salesforce through Okta-managed SSO and account provisioning.
+
+> **Note:** While the user authentication is federated through Entra ID, Okta may still enforce its own MFA policy after the Entra authentication is completed. This demonstrates a distinction between federated authentication and downstream authentication policies: completing MFA at the upstream IdP does not automatically mean that all downstream security policies will be met.
+
+---
+
+## 💼 Business Scenario
+
+A fictional organization, **Warriors Org**, uses **Microsoft Entra ID** as its primary identity provider. Following an acquisition, the organization inherited an **Okta environment** that is already integrated with several SaaS applications, including Salesforce.
+
+Rather than immediately replacing the existing Okta environment, the organization's IAM team needs to integrate the two identity platforms while maintaining centralized authentication and application access.
+
+The security team establishes the following requirements:
+
+* Employees should authenticate using their corporate **Microsoft Entra ID** credentials.
+* Existing Okta-integrated applications should remain available without requiring separate application passwords.
+* **Salesforce** access should be controlled through group-based application assignments.
+* SAML federation should securely pass user identity information between Entra ID and Okta.
+* Users must be correctly matched between Entra ID and Okta to prevent duplicate or incorrectly linked accounts.
+* MFA and authentication policies should remain enforceable at the appropriate identity-provider level.
+* Authentication failures and account-matching issues should be identifiable through identity-provider logs.
+
+This project simulates how an IAM team could integrate **Entra ID and Okta during a hybrid identity or acquisition scenario** while maintaining existing SaaS integrations.
 
 ---
 
@@ -30,22 +52,23 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 4. Entra ID generates a signed **SAML 2.0 assertion** containing the user's identity and configured claims.
 5. Okta receives and validates the SAML response, then uses the configured account-matching rules to identify the corresponding Okta user.
 6. Okta establishes a session and signs the user into the **Okta End-User Dashboard**.
+7. Depending on the configured Okta authentication policy, the user may be required to complete an additional Okta MFA challenge.
 
 ### 2. Application SSO: Okta → Salesforce
 
-7. The user selects **Salesforce** from the Okta End-User Dashboard.
-8. Okta generates a signed **SAML 2.0 assertion** containing the required user attributes and claims.
-9. Salesforce validates the SAML assertion and verifies the user's identity.
-10. Salesforce establishes the user session and signs the user into the application.
+8. The user selects **Salesforce** from the Okta End-User Dashboard.
+9. Okta generates a signed **SAML 2.0 assertion** containing the required user attributes and claims.
+10. Salesforce validates the SAML assertion and verifies the user's identity.
+11. Salesforce establishes the user session and signs the user into the application.
 
 ### Federation Architecture
 
-| Component | Role |
-|---|---|
-| **Microsoft Entra ID** | Primary Identity Provider (IdP) |
-| **Okta** | Central Identity Hub / Downstream IdP |
-| **Salesforce** | Downstream SaaS Application / Service Provider (SP) |
-| **SAML 2.0** | Federation protocol used between Entra ID, Okta, and Salesforce |
+| Component              | Role                                                            |
+| ---------------------- | --------------------------------------------------------------- |
+| **Microsoft Entra ID** | Primary Identity Provider (IdP)                                 |
+| **Okta**               | Central Identity Hub / Downstream IdP                           |
+| **Salesforce**         | Downstream SaaS Application / Service Provider (SP)             |
+| **SAML 2.0**           | Federation protocol used between Entra ID, Okta, and Salesforce |
 
 ---
 
@@ -53,9 +76,9 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 
 ### Phase 1: Directory Setup & User/Group Import
 
-- Provisioned an enterprise **Okta Tenant**.
-- Imported identity user profiles from **Microsoft Entra ID** into Okta. Only 9 are active due to license restrictions.
-- Created **Okta User Groups** to match the Entra ID security groups.
+* Provisioned an enterprise **Okta Tenant**.
+* Imported identity user profiles from **Microsoft Entra ID** into Okta. Only 9 are active due to license restrictions.
+* Created **Okta User Groups** to match the Entra ID security groups.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fc60b23e-79d5-40a4-8d51-37395e8c2566" alt="Okta Entra Users" width="850"/>
@@ -69,12 +92,12 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 
 ### Phase 2: Inbound SAML Federation (Entra ID ➔ Okta)
 
-- Created a SAML 2.0 Identity Provider named **Warriors Entra SSO** in Okta.
-- Created an Enterprise Application in Entra ID named **Warriors Okta SSO** for Okta inbound federation.
-- Assigned the **IT-Users** group to the **Warriors Okta SSO** application.
-- Configured Single Sign-On with SAML 2.0 in Entra ID using the Okta Entity ID and ACS URL.
-- Configured the SAML protocol settings in Okta using the Entra identifier, login URL, and certificate.
-- Matched **IdP username** to `idpuser.upn`, which takes the Entra username entered as the `upn` and uses it to look up the corresponding user in the Okta directory.
+* Created a SAML 2.0 Identity Provider named **Warriors Entra SSO** in Okta.
+* Created an Enterprise Application in Entra ID named **Warriors Okta SSO** for Okta inbound federation.
+* Assigned the **IT-Users** group to the **Warriors Okta SSO** application.
+* Configured Single Sign-On with SAML 2.0 in Entra ID using the Okta Entity ID and ACS URL.
+* Configured the SAML protocol settings in Okta using the Entra identifier, login URL, and certificate.
+* Matched **IdP username** to `idpuser.upn`, which takes the Entra username entered as the `upn` and uses it to look up the corresponding user in the Okta directory.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f3421a1f-604d-425f-89ac-a1276668bfe6" alt="Warriors SSO Okta App" width="750"/>
@@ -96,12 +119,12 @@ Users authenticate through Entra ID, are federated to Okta using SAML, and then 
 
 ### Phase 3: Outbound SAML SSO & Provisioning (Okta ➔ Salesforce)
 
-- Created a Salesforce account.
-- Provisioned a user, **Andre Iggy**, who is part of the **IT group**.
-- Integrated the **Salesforce Integration App** inside Okta.
-- Configured SAML 2.0 SSO settings in Salesforce, including the Issuer, Identity Provider Certificate, and SAML Identity Type.
-- Enabled domain management in Salesforce and set Okta as the primary authentication service.
-- Assigned the Salesforce application to the **IT group**.
+* Created a Salesforce account.
+* Provisioned a user, **Andre Iggy**, who is part of the **IT group**.
+* Integrated the **Salesforce Integration App** inside Okta.
+* Configured SAML 2.0 SSO settings in Salesforce, including the Issuer, Identity Provider Certificate, and SAML Identity Type.
+* Enabled domain management in Salesforce and set Okta as the primary authentication service.
+* Assigned the Salesforce application to the **IT group**.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/451ccb0d-f2ad-48c5-aaab-4c8c017c44c5" alt="Salesforce Integration" width="800"/>
@@ -129,6 +152,7 @@ Target: Andre.Iggy@campbell400.onmicrosoft.com
 DetailEntry: unknown
 Reason: Invalid username transform / Account match failure
 ```
+
 <p align="center"> <img src="https://github.com/user-attachments/assets/74645fb9-038c-46ee-bceb-f0012eb1a051" alt="Failed SSO" width="800"/> </p>
 
 ## Root Cause Analysis
@@ -140,20 +164,20 @@ Reason: Invalid username transform / Account match failure
 
 #### 1. Defined a Custom Attribute in Okta Profile Editor
 
-- Navigated to `Directory > Profile Editor > [Warriors Entra SSO Profile]`.
-- Added the custom variable `upn` with the type `string` and display name `UPN`.
+* Navigated to `Directory > Profile Editor > [Warriors Entra SSO Profile]`.
+* Added the custom variable `upn` with the type `string` and display name `UPN`.
 
 #### 2. Built a Profile Mapping Rule
 
-- Mapped `appuser.upn` on the Entra IdP side to `user.login` on the Okta user side.
+* Mapped `appuser.upn` on the Entra IdP side to `user.login` on the Okta user side.
 
 #### 3. Updated IdP Account Matching & Expression Language
 
-- Updated Account Matching to evaluate `idpuser.upn` against the **Okta Username**.
+* Updated Account Matching to evaluate `idpuser.upn` against the **Okta Username**.
 
 #### 4. Enabled Account Linking Policy
 
-- Set **Enable automatic linking** under the IdP Account Matching settings.
+* Set **Enable automatic linking** under the IdP Account Matching settings.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/88079188-bce8-431c-8c9f-e6be5890419a" alt="Okta Profile Mapping" width="800"/>
@@ -165,10 +189,27 @@ Reason: Invalid username transform / Account match failure
 
 ---
 
+## 🔐 MFA & Authentication Policy Considerations
+
+During testing, the user successfully completed authentication and MFA through **Microsoft Entra ID**, but Okta still presented an additional MFA challenge after the federated authentication was completed.
+
+This demonstrated that **federated SSO does not necessarily mean that authentication requirements are inherited between identity providers**. Entra ID successfully authenticated the user and provided a valid SAML assertion to Okta, but Okta's own authentication policy could still require an additional verification step.
+
+Rather than disabling Okta MFA to eliminate the additional prompt, the behavior was documented as an authentication-policy consideration. In a production environment, an organization could evaluate Okta's authentication and federation capabilities to determine whether upstream authentication can satisfy downstream requirements. Alternatively, additional MFA may be intentionally retained for applications.
+
+The resulting authentication flow was therefore:
+
+**Entra ID Authentication + MFA → Okta Federation → Okta MFA Policy → Salesforce SSO**
+
+This highlighted an important IAM concept: **SSO, federation, and MFA are separate security controls that must be evaluated together when designing an enterprise authentication architecture.**
+
+---
+
 ## 🔬 Verification & Testing
 
-- **IT User Andre Iggy completed the authentication flow successfully.**
-- **System Log Audit:** Confirmed that `user.authentication.auth_via_IDP` entries changed from `FAILURE` to `SUCCESS`.
+* **IT User Andre Iggy completed the federated authentication flow successfully.**
+* **System Log Audit:** Confirmed that `user.authentication.auth_via_IDP` entries changed from `FAILURE` to `SUCCESS`.
+* **MFA Testing:** Confirmed that Okta could enforce an additional MFA challenge after successful authentication through the upstream Entra ID identity provider.
 
 <p align="center">
   <img width="800" alt="Andre SSO sign in" src="https://github.com/user-attachments/assets/61fb2cfe-2647-4ea3-a4b4-fb67d7a12da4" />
@@ -186,7 +227,8 @@ Reason: Invalid username transform / Account match failure
 
 ## 💼 Key Technical Skills Demonstrated
 
-- **Identity Providers & Protocols:** SAML 2.0, SCIM, Microsoft Entra ID (Azure AD), Okta, Salesforce.
-- **Claim Engineering:** Custom SAML attribute claims and Okta Profile Editor schema expansion.
-- **Identity Troubleshooting:** Analysis of Okta System Logs, SAML response assertions, and account matching policies.
-- **Role-Based Access Control (RBAC):** Group-based application provisioning and entitlement governance.
+* **Identity Providers & Protocols:** SAML 2.0, SCIM, Microsoft Entra ID (Azure AD), Okta, Salesforce.
+* **Claim Engineering:** Custom SAML attribute claims and Okta Profile Editor schema expansion.
+* **Identity Troubleshooting:** Analysis of Okta System Logs, SAML response assertions, and account matching policies.
+* **Role-Based Access Control (RBAC):** Group-based application provisioning and entitlement governance.
+* **Authentication Policy Design:** Understanding the interaction between federated authentication, MFA, and downstream identity-provider policies.
